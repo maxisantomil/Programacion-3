@@ -5,30 +5,44 @@ import java.util.ArrayList;
 public class MainEjercicioArboles {
 
 	public static void main(String[] args) {
-	Tree Arbol= new Tree(15);
+	
+	int[] valoresIniciales = new int[] {15, 4, 1, 25, 50, 6, 7, 20, 5, 30};
 	ArrayList<Integer>aux= new ArrayList<Integer>();
-	Arbol.add(6);
-	Arbol.add(3);
-	Arbol.add(2);
-	Arbol.add(4);
-	Arbol.add(7);
-	Arbol.add(13);
-	Arbol.add(9);
-	Arbol.add(18);
-	Arbol.add(17);
-	Arbol.add(20);
-	Arbol.printPreorder();
-	System.out.println(Arbol.hasElement(18));
-	System.out.println(Arbol.isEmpty());
-	System.out.println(Arbol.size());
-	Arbol.printInorder();
-	System.out.println(Arbol.getHeight());
-	System.out.println(Arbol.getFrontera());
-	System.out.println(Arbol.getMaxELement());
-	System.out.println("los elementos del nivel 2 son:" + Arbol.getElemAtLevel(1));
-	System.out.println(Arbol.getLongestBranch());
-	System.out.println(Arbol.delete(18));
-	Arbol.printPreorder();
+	Tree miArbol= new Tree(valoresIniciales);
+	
+	System.out.println("////////////parte 1////////////");
+	miArbol.printPreOrder();
+	System.out.println("");
+	System.out.println( "el valor del maximo elemento es de: "+miArbol.getMaxElement() );
+	System.out.println( "la altura del arbol es: "+ miArbol.getHeight() );
+	System.out.println( miArbol.getLongestBranch() );
+	System.out.println( miArbol.getElementAtLevel(2) );
+	System.out.println( miArbol.getFrontera() );
+	
+	System.out.println("////////////parte 2////////////");
+	miArbol.add(23);
+	miArbol.add(3);
+	miArbol.delete(6);
+	miArbol.delete(30);
+	
+	miArbol.printPreOrder();
+	System.out.println("");
+	System.out.println( miArbol.getMaxElement() );
+	System.out.println( miArbol.getHeight() );
+	System.out.println( miArbol.getLongestBranch() );
+	System.out.println( miArbol.getElementAtLevel(2) );
+	System.out.println( miArbol.getFrontera() );
+	System.out.println("////////////parte 3////////////");
+	miArbol.add(65);
+	miArbol.delete(5);
+	miArbol.delete(15);
+	miArbol.add(55);
+	miArbol.printPreOrder();
+	System.out.println( miArbol.getMaxElement() );
+	System.out.println( miArbol.getHeight() );
+	System.out.println( miArbol.getLongestBranch() );
+	System.out.println( miArbol.getElementAtLevel(2) );
+	System.out.println( miArbol.getFrontera() );
 	}
 
 }

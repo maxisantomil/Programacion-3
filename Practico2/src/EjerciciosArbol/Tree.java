@@ -16,6 +16,17 @@ public class Tree {
 		this.size++;
 	}
 	
+	//constructor para insertar un arreglo 
+	public Tree(int[]arreglo) {
+		int max=arreglo.length;
+		this.valor = arreglo[0];
+		this.izquierda = null;
+		this.derecha = null;
+		this.size++;
+		for (int i=1; i< max;i++) {
+			this.add(arreglo[i]);
+		}
+	}
 	public Integer getValor() {
 		return valor;
 	}
@@ -76,15 +87,16 @@ public class Tree {
 	}
 	
 	
-	public void printPreorder() {
-		if (this!=null) {
-			System.out.println(this.getValor()+" ");
-		}
-		else return;
+	public void printPreOrder() {
+		System.out.print(this);
+		
 		if (this.izquierda!=null) 
-			this.izquierda.printPreorder();
+			this.izquierda.printPreOrder();
+		else System.out.print("-");
+		
 		if (this.derecha!=null)
-		this.derecha.printPreorder();
+			this.derecha.printPreOrder();
+		else System.out.print("-");
 		
 	}
 	
@@ -136,9 +148,9 @@ public class Tree {
 		return ElementosHojas;
 	}
 	
-	public Integer getMaxELement() {
+	public Integer getMaxElement() {
 		if (this.derecha!=null) {
-			 return this.derecha.getMaxELement();
+			 return this.derecha.getMaxElement();
 		}
 		return  this.getValor();
 		
@@ -151,16 +163,16 @@ public class Tree {
 		
 		}
 	
-	public ArrayList<Integer> getElemAtLevel(int level){
+	public ArrayList<Integer> getElementAtLevel(int level){
 		ArrayList<Integer> aux= new ArrayList<Integer>();
 		if (level==0) {
 			aux.add(this.getValor());
 		}
 		if (this.izquierda!=null) {
-			aux.addAll(izquierda.getElemAtLevel(level-1));
+			aux.addAll(izquierda.getElementAtLevel(level-1));
 		}
 		if (this.derecha!=null) {
-			aux.addAll(derecha.getElemAtLevel(level-1));
+			aux.addAll(derecha.getElementAtLevel(level-1));
 		}
 		return aux;
 	}
@@ -262,7 +274,7 @@ public class Tree {
 		Integer menor=null;
 		
 		if (this.izquierda!=null)	
-			menor=this.izquierda.getMaxELement();
+			menor=this.izquierda.getMaxElement();
 		return menor;
 	}
 
@@ -281,6 +293,10 @@ public class Tree {
 			}
 		}
 		return ramaActual;
+	}
+	
+	public String toString() {
+		return "[" + this.getValor() + "]";
 	}
 
 	
