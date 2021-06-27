@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Tree {
 	
-	private int valor;
+	private Integer valor;
 	private Tree izquierda;
 	private Tree derecha;
 	private int size=0;
@@ -16,7 +16,9 @@ public class Tree {
 		this.size++;
 	}
 	
+	
 	//constructor para insertar un arreglo 
+	//Complejidad: O(n*h) donde n es el tamaño del arreglo 
 	public Tree(int[]arreglo) {
 		int max=arreglo.length;
 		this.valor = arreglo[0];
@@ -24,21 +26,32 @@ public class Tree {
 		this.derecha = null;
 		this.size++;
 		for (int i=1; i< max;i++) {
-			this.add(arreglo[i]);
+			this.add(arreglo[i]); // O(h) // que recorre la altura del arbol
 		}
 	}
+	//O(1) no tienen complejidad, retorna valor
 	public Integer getValor() {
 		return valor;
 	}
 	
+	//O(1)
 	 private void setValor(Integer v) {
 		 this.valor=v;
 	 }
 	
 	
-	//Insert
+	//Insert 
+	 // O(h) h es la altura
+	 // en el peor de los casos recorre todo su subarbol izquierda o derecho
 	public void add(int newValue) {
-		if (newValue < this.valor) {
+		
+		if (this.valor==null) {
+			this.setValor(newValue);
+			return;
+		}
+		
+		
+		if (this.valor!=null && newValue < this.valor) {
 			if (this.izquierda == null) {
 				this.izquierda = new Tree(newValue);
 				size++;
@@ -58,11 +71,13 @@ public class Tree {
 			}
 		}
 	}
-	
+	//Complejidad O(1) no tiene complejidad, devuelve raiz , 
 	public Tree getRoot() {
 		return this;
 	}
 	
+	//Complejidad O(h) donde h es la altura
+	// en el peor de los casos para encontrar el elemento debe recorrer la rama mas baja.
 	public boolean hasElement(Integer e) {
 		if (e==this.getValor()){
 			return true;
@@ -77,16 +92,18 @@ public class Tree {
 		}return false;
 	}
 	
+	//O(1)
 	public int size() {
 	return this.size;
 		}
 	
-	
+	//O(1)
 	public boolean isEmpty() {
 		return this.size()==0;
 	}
 	
-	
+	//Complejidad O(n) donde n es la cantidad de nodos
+	//En el peor de los casos debe recorrer todos los nodos del arbol
 	public void printPreOrder() {
 		System.out.print(this);
 		
@@ -100,6 +117,8 @@ public class Tree {
 		
 	}
 	
+	//Complejidad O(n) donde n es la cantidad de nodos
+	//En el peor de los casos debe recorrer todos los nodos del arbol
 	public void printPostorder() {
 		if (this.izquierda!=null) 
 			this.izquierda.printPostorder();
@@ -109,6 +128,9 @@ public class Tree {
 			System.out.println(this.getValor() +" ");
 		}
 	}
+	
+	//Complejidad O(n) donde n es la cantidad de nodos
+		//En el peor de los casos debe recorrer todos los nodos del arbol
 	public void printInorder() {
 		if (this.izquierda!=null) 
 			this.izquierda.printInorder();
@@ -119,6 +141,8 @@ public class Tree {
 	}
 	
 	//devuelve la altura del arbol
+	//O(n) donde n son la cantidad de elementos del arbol
+	// debe recorrer todo el arbol 
 	public int getHeight() {
 		int sumaIzq=0;
 		int sumaDer=0;
@@ -133,6 +157,8 @@ public class Tree {
 	}
 	
 	//elementos sin hijos (ultimo nivel)
+	//O(n) donde n son la cantidad de elementos del arbol
+	//debe recorrer tanto izquierda como derecha.(todo el arbol)
 	public ArrayList<Integer>  getFrontera() {
 		ArrayList<Integer>ElementosHojas = new ArrayList<Integer>();
 		if ((this.izquierda==null) && (this.derecha==null)) {
@@ -148,6 +174,8 @@ public class Tree {
 		return ElementosHojas;
 	}
 	
+	//Complejidad O(h) donde h es la altura
+	//En el peor de los casos recorre hasta el ultimo nivel del arbol
 	public Integer getMaxElement() {
 		if (this.derecha!=null) {
 			 return this.derecha.getMaxElement();
@@ -155,6 +183,9 @@ public class Tree {
 		return  this.getValor();
 		
 		}
+	
+	//Complejidad O(h) donde h es la altura
+	//En el peor de los casos recorre hasta el ultimo nivel del arbol
 	public Integer getMinElement() {
 		if (this.izquierda!=null) {
 			 return this.izquierda.getMinElement();
@@ -163,6 +194,8 @@ public class Tree {
 		
 		}
 	
+	//Complejidad O(n) donde n es la cantidad de elementos del arbol
+	//recorre tanto izquierda como derecha (todo el arbol)
 	public ArrayList<Integer> getElementAtLevel(int level){
 		ArrayList<Integer> aux= new ArrayList<Integer>();
 		if (level==0) {
@@ -177,13 +210,13 @@ public class Tree {
 		return aux;
 	}
 	
+	//Complejidad O(n) donde n es la cantidad de elementos del arbol
+	//en cada paso recorro tanto izquierda como derecha( todo el arbol)
 	public ArrayList<Integer> getLongestBranch(){
 		ArrayList<Integer> aux= new ArrayList<Integer>();
 		ArrayList<Integer> leftList= new ArrayList<Integer>();
 		ArrayList<Integer> rightList= new ArrayList<Integer>();
-		if (this== null) {
-			return aux;
-		}
+	
 		if (this!=null && this.izquierda==null && this.derecha==null) {
 			aux.add(this.getValor());
 		}
@@ -205,31 +238,38 @@ public class Tree {
 }
 	
 
-
+	//O(1)
 	private boolean tieneHijos() {
 		return (this.izquierda!=null && this.derecha!=null);
 	}
-
+	//O(1)
 	private boolean esHoja() {
 		return (this.izquierda==null && this.derecha==null);
 	}
 	
+
+	//Complejidad O(2h) donde h es la altura
+	//En el peor de los casos recorre mas de una vez el ultimo nivel del arbol.
 	public boolean delete(int elementoBorrar) {
 		boolean seBorro=false;
-		
-	 if (this.hasElement(elementoBorrar)) {
-		 
+	 
+		 if (this.valor==null) {
+			 return seBorro;
+		 }
 		 //si es menor resuelve por rama izquierda
 		if (elementoBorrar< this.getValor()){
+			if (this.izquierda!=null) {
 			if (this.izquierda.getValor()==elementoBorrar){
 				this.izquierda=this.centroBorrado(this.izquierda);
 				seBorro=true;
 			}else { 
 				seBorro= this.izquierda.delete(elementoBorrar);
+				}
 			}
 		}
 		//si es mayor resuelvo por rama derecha
 		else if(elementoBorrar > this.getValor()) {
+			if (this.derecha!=null) {
 			if (this.derecha.getValor()==elementoBorrar) {
 				this.derecha=this.centroBorrado(this.derecha);
 				seBorro=true;
@@ -238,30 +278,33 @@ public class Tree {
 				seBorro=this.derecha.delete(elementoBorrar);
 				}
 			}
+		}
 		// si es raiz
 		else {
-			if (this.esHoja()){ // si es hoja , borra directamente
+			if ((this.esHoja())){ // si es hoja , borra directamente
 				this.setValor(null);
 				seBorro=true;
+				return seBorro;
 			}
 			else if (this.tieneHijos()|| this.izquierda!=null) {
-				 Integer NMDSI = this.getMayordeLosMenores();//devuelve el mayor de los menores del subarbol izquierda;
+				 Integer NMDSI = this.getMayordeLosIzquierdos();//devuelve el mayor de los menores del subarbol izquierda;
 				 seBorro=this.delete(NMDSI);
 				 this.setValor(NMDSI);
 			}else { 
-				Integer NMISD= this.getMenordeLosMayores();// devuelve el menor de los mayores subarbol derecha;
+				Integer NMISD= this.getMenordeLosDerechos();// devuelve el menor de los mayores subarbol derecha;
 				seBorro=this.delete(NMISD);
 				this.setValor(NMISD);
 				
 			}
 		}
-		return seBorro;
-	 }
 
 		return seBorro;
 	}
 
-	private Integer getMenordeLosMayores() {
+
+	//Complejidad O(h) donde h es la altura
+	//En el peor de los casos recorrera desde la raiz hasta el ultimo nivel de la subrama derecha
+	private Integer getMenordeLosDerechos() {
 		Integer mayor=null;
 		
 		if (this.derecha!=null) {
@@ -270,7 +313,9 @@ public class Tree {
 		return mayor;
 	}
 
-	private Integer getMayordeLosMenores() {
+	//Complejidad O(h) donde h es la altura
+	//En el peor de los casos recorre desde la raiz hasta el ultimo nivel de la subrama izquierda
+	private Integer getMayordeLosIzquierdos() {
 		Integer menor=null;
 		
 		if (this.izquierda!=null)	
@@ -278,11 +323,13 @@ public class Tree {
 		return menor;
 	}
 
+	//Complejidad O(2h) donde h es la altura
+	//En el peor de los casos se recorre mas de una vez hasta el ultimo nivel.
 	private Tree centroBorrado(Tree ramaActual) {
 		if (ramaActual.esHoja()) {
 			ramaActual=null;
 		} else if (ramaActual.tieneHijos()) {
-			Integer NMDSI= ramaActual.getMayordeLosMenores();
+			Integer NMDSI= ramaActual.getMayordeLosIzquierdos();
 			ramaActual.delete(NMDSI);
 			ramaActual.setValor(NMDSI);
 		}else {
